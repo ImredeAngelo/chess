@@ -1,0 +1,19 @@
+# For local development
+version: '3.9'
+services:
+  proxy:
+    image: nginx:1.23-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./src/nginx/public:/etc/nginx/data
+      - ./src/nginx/templates:/etc/nginx/templates
+      - ./src/nginx/ssl:/etc/letsencrypt/live/localhost
+    environment:
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.t.conf
+      - HOST=192.168.1.99
+      - APP=192.168.1.99:4443
+      - USERS=users:3000              # production: login.html ?
+      - SSL_CERTIFICATE=local.crt     # production: fullchain.pem 
+      - SSL_PRIVATE_KEY=local.key     # production: privkey.pem
