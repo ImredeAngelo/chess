@@ -1,0 +1,111 @@
+$light-color: #e2e2ca;
+$dark-color: #5363c0;
+
+// ===== CHESSBOARD
+
+$size: 50rem;
+
+#board {
+    // &::before {
+    //     content: "";
+    //     position: absolute;
+    //     width: 100%;
+    //     height: 100%;
+    // }
+
+}
+
+.squares {
+    height: $size;
+    width: $size;
+
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    // grid-template-rows: repeat(8, 1fr);
+
+    & .light { background-color: $light-color; color: black; }
+    & .dark { background-color: $dark-color; }
+}
+
+// ===== PIECES
+
+$cellsize: calc($size/8);
+
+.pieces {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.piece {
+    height: $cellsize;
+    width: $cellsize;
+    position: absolute;
+    cursor: grab;
+}
+
+// @function load($path) {}
+
+@mixin pawn($color) {
+    @extend .piece;
+
+    background: svg-load('./pawn.svg', fill=$color) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+@mixin bishop($color) {
+    @extend .piece;
+
+    background: svg-load('./bishop.svg', fill=$color) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+@mixin knight($color) {
+    @extend .piece;
+
+    background: svg-load('./knight.svg', fill=$color) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+@mixin rook($color) {
+    @extend .piece;
+
+    background: svg-load('./rook.svg', fill=$color) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+@mixin queen($color) {
+    @extend .piece;
+
+    background: svg-load('./queen.svg', fill=$color !important) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+@mixin king($color) {
+    @extend .piece;
+
+    background: svg-load('./king.svg', fill=$color !important) center no-repeat;
+    background-size: calc($cellsize - .85rem);
+}
+
+
+.black {
+    $col: #262626;
+    &.pawn { @include pawn($col) }
+    &.rook { @include rook($col) }
+    &.bishop { @include bishop($col) }
+    &.knight { @include knight($col) }
+    &.q { @include queen($col) }
+    &.k { @include king($col) }
+}
+
+.white {
+    $col: #fff;
+    &.pawn { @include pawn($col) }
+    &.rook { @include rook($col) }
+    &.bishop { @include bishop($col) }
+    &.knight { @include knight($col) }
+    &.q { @include queen($col) }
+    &.k { @include king($col) }
+}
