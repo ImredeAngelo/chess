@@ -12,7 +12,7 @@
   },
   "workspaces": [
     ".buildtools",
-    "packages/*"
+    "src/*"
   ],
   "packageManager": "yarn@3.2.2"
 }
