@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Board from './makeBoard';
-import chess from './style/chess.scss'
-
-const PIECE_PAWN    = 'pawn';
-const PIECE_KNIGHT  = 'knight';
-const PIECE_BISHOP  = 'bishop';
-const PIECE_ROOK    = 'rook';
-const PIECE_QUEEN   = 'q';
-const PIECE_KING    = 'k';
+import Bishop from './piece/bishop';
+import King from './piece/king';
+import Knight from './piece/knight';
+import Pawn from './piece/pawn';
+import Queen from './piece/queen';
+import Rook from './piece/rook';
+import chess from './style/chess.scss';
 
 const COLOR_WHITE = 'white';
 const COLOR_BLACK = 'black';
@@ -33,30 +32,31 @@ export default class ChessBoard extends Component {
         let i = 0;
 
         while(i < 8) {
-            p[i++] = this.makePiece(PIECE_PAWN, COLOR_WHITE, i, 2);
-            p[i+7] = this.makePiece(PIECE_PAWN, COLOR_BLACK, i, 7);
+            p[i++] = <Pawn white position={[i,2]}/>
+            p[i+7] = <Pawn black position={[i,7]}/>
         }
 
         i += 8;
-        p[i++] = this.makePiece(PIECE_ROOK, COLOR_WHITE, 1, 1);
-        p[i++] = this.makePiece(PIECE_ROOK, COLOR_BLACK, 1, 8);
-        p[i++] = this.makePiece(PIECE_ROOK, COLOR_WHITE, 8, 1);
-        p[i++] = this.makePiece(PIECE_ROOK, COLOR_BLACK, 8, 8);
+        p[i++] = <Rook white position={[1,1]}/>
+        p[i++] = <Rook black position={[1,8]}/>
+        p[i++] = <Rook white position={[8,1]}/>
+        p[i++] = <Rook black position={[8,8]}/>
         
-        p[i++] = this.makePiece(PIECE_BISHOP, COLOR_WHITE, 2, 1);
-        p[i++] = this.makePiece(PIECE_BISHOP, COLOR_BLACK, 2, 8);
-        p[i++] = this.makePiece(PIECE_BISHOP, COLOR_WHITE, 7, 1);
-        p[i++] = this.makePiece(PIECE_BISHOP, COLOR_BLACK, 7, 8);
+        p[i++] = <Knight white position={[2,1]}/>
+        p[i++] = <Knight black position={[2,8]}/>
+        p[i++] = <Knight white position={[7,1]}/>
+        p[i++] = <Knight black position={[7,8]}/>
 
-        p[i++] = this.makePiece(PIECE_KNIGHT, COLOR_WHITE, 3, 1);
-        p[i++] = this.makePiece(PIECE_KNIGHT, COLOR_BLACK, 3, 8);
-        p[i++] = this.makePiece(PIECE_KNIGHT, COLOR_WHITE, 6, 1);
-        p[i++] = this.makePiece(PIECE_KNIGHT, COLOR_BLACK, 6, 8);
+        p[i++] = <Bishop white position={[3,1]}/>
+        p[i++] = <Bishop black position={[3,8]}/>
+        p[i++] = <Bishop white position={[6,1]}/>
+        p[i++] = <Bishop black position={[6,8]}/>
         
-        p[i++] = this.makePiece(PIECE_QUEEN, COLOR_WHITE, 4, 1);
-        p[i++] = this.makePiece(PIECE_QUEEN, COLOR_BLACK, 4, 8);
-        p[i++] = this.makePiece(PIECE_KING, COLOR_WHITE, 5, 1);
-        p[i++] = this.makePiece(PIECE_KING, COLOR_BLACK, 5, 8);
+        p[i++] = <Queen white position={[4,1]}/>
+        p[i++] = <Queen black position={[4,8]}/>
+
+        p[i++] = <King white position={[5,1]}/>
+        p[i++] = <King black position={[5,8]}/>
 
         return p;
     }
@@ -83,19 +83,7 @@ export default class ChessBoard extends Component {
         
     }
 
-    // TODO: Context pass style
-    makePiece(type, color, column=1, row=1) {
-        const y = (8 - row)*100;
-        const x = (column - 1)*100;
-
-        return (
-            <div 
-                key={`${type}-${column}${row}`} 
-                className={`${chess[color]} ${chess[type]}`} 
-                style={{transform:`translate(${x}%,${y}%)`}}
-            />
-        )
-    }
+    // TODO: Context pass style and update position
 
     render() {
         return (
