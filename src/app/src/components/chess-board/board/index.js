@@ -1,5 +1,6 @@
 import React from "react";
-import makeSquare from "./makeSquare";
+import { COLOR_WHITE } from "..";
+import square from "./square";
 
 /**
  * Create the chessboard squares
@@ -14,7 +15,7 @@ export default function Board(props) {
 
     for(let r = 0; r < 8; r++) {
         for(let c = 0; c < 8; c++) {
-            squares[i++] = makeSquare(style, (color == 'white') ? 8 - r : r + 1, c);
+            squares[i++] = square(style, (color == COLOR_WHITE) ? 8 - r : r + 1, c);
         }
     }
 

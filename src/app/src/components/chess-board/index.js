@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Board from './makeBoard';
+import Board from './board';
 import Bishop from './piece/bishop';
 import King from './piece/king';
 import Knight from './piece/knight';
@@ -8,8 +8,8 @@ import Queen from './piece/queen';
 import Rook from './piece/rook';
 import chess from './style/chess.scss';
 
-const COLOR_WHITE = 'white';
-const COLOR_BLACK = 'black';
+export const COLOR_WHITE = 'w';
+export const COLOR_BLACK = 'b';
 
 export default class ChessBoard extends Component {
     constructor(props) {
@@ -61,26 +61,11 @@ export default class ChessBoard extends Component {
         return p;
     }
 
-    setClickHandler(el, col, row) {
-        // this.setState({
-        //     ...this.state,
-        //     selected:[col,row]
-        // })
-        // e.preventDefault();
-
-        // if (document.addEventListener) {
-        //     document.addEventListener('contextmenu', function(e) {
-        //       alert("You've tried to open context menu"); //here you draw your own menu
-        //       e.preventDefault();
-        //     }, false);
-        //   } else {
-        //     document.attachEvent('oncontextmenu', function() {
-        //       alert("You've tried to open context menu");
-        //       window.event.returnValue = false;
-        //     });
-        //   }
-
-        
+    /**
+     * @todo - Load from PGN
+     */
+    load(file) {
+        console.warn("Not implemented");
     }
 
     // TODO: Context pass style and update position

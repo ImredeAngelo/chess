@@ -128,6 +128,14 @@ export default class Piece extends Component {
     }
     
 
+    // ===== Click Move
+
+
+    onClick(e) {
+        
+    }
+
+
     // ===== Game
 
 

@@ -6,7 +6,7 @@ import React from "react";
  * @param {*} column 
  * @returns 
  */
-export default function makeSquare(style, row, column) {
+export default function square(style, row, column) {
     const alph = "ABCDEFGH";
     const col = alph[column];
     const stl = ((column % 2) ^ (row % 2)) ? 'dark' : 'light';

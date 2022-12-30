@@ -23,11 +23,11 @@ export default class Pawn extends Piece {
         // TODO: Extra checks for en passant
         // TODO: Allow attacks (dx == +/- && dy == 1)
 
-        // TODO: Only update moved when move has comitted
-        this.setState({
-            ...this.state,
-            moved: true
-        })
+        // TODO: Only update moved when move has commited
+        // this.setState({
+        //     ...this.state,
+        //     moved: true
+        // })
         
         return (dx == 0 && dy == 1) || (!this.state.moved && dx == 0 && dy == 2);
     }
