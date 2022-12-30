@@ -2,6 +2,8 @@ import React from 'react'
 import Piece from './index.js'
 import s from '../style/chess.scss'
 
+const symbol = 'b'
+
 export default class Bishop extends Piece {
     isPseudoLegalMove(move) {
         const p = this.state.position;
@@ -20,7 +22,7 @@ export default class Bishop extends Piece {
                 left:this.getOffset(0), 
                 top:this.getOffset(1), 
             },
-            className: s.bishop + ' ' + s[this.color],
+            className: s[this.color + symbol],
         }
 
         return React.createElement('div', opts)

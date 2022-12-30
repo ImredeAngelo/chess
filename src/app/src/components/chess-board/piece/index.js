@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import Hammer, { DIRECTION_ALL } from 'hammerjs'
 
+const COLOR_WHITE = 'w';
+const COLOR_BLACK = 'b';
+
 export default class Piece extends Component {
     constructor(props) {
         super(props);
 
         this.size = 0;
-        this.color = props.black ? 'black' : 'white';
+        this.color = props.black ? COLOR_BLACK : COLOR_WHITE;
         this.ref = React.createRef();
 
         this.state = {

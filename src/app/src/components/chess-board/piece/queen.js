@@ -20,7 +20,7 @@ export default class Queen extends Piece {
                 left:this.getOffset(0), 
                 top:this.getOffset(1), 
             },
-            className: s.q + ' ' + s[this.color],
+            className: s[this.color + 'q']
         }
 
         return React.createElement('div', opts)

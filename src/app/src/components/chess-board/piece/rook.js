@@ -20,7 +20,7 @@ export default class Rook extends Piece {
                 left:this.getOffset(0), 
                 top:this.getOffset(1), 
             },
-            className: s.rook + ' ' + s[this.color],
+            className: s[this.color + 'r'],
         }
 
         return React.createElement('div', opts)

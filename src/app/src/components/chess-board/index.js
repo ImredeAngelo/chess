@@ -32,31 +32,31 @@ export default class ChessBoard extends Component {
         let i = 0;
 
         while(i < 8) {
-            p[i++] = <Pawn white position={[i,2]}/>
-            p[i+7] = <Pawn black position={[i,7]}/>
+            p[i++] = <Pawn white position={[i,2]} key={i-1}/>
+            p[i+7] = <Pawn black position={[i,7]} key={i+7}/>
         }
 
         i += 8;
-        p[i++] = <Rook white position={[1,1]}/>
-        p[i++] = <Rook black position={[1,8]}/>
-        p[i++] = <Rook white position={[8,1]}/>
-        p[i++] = <Rook black position={[8,8]}/>
+        p[i++] = <Rook white position={[1,1]} key={i}/>
+        p[i++] = <Rook black position={[1,8]} key={i}/>
+        p[i++] = <Rook white position={[8,1]} key={i}/>
+        p[i++] = <Rook black position={[8,8]} key={i}/>
         
-        p[i++] = <Knight white position={[2,1]}/>
-        p[i++] = <Knight black position={[2,8]}/>
-        p[i++] = <Knight white position={[7,1]}/>
-        p[i++] = <Knight black position={[7,8]}/>
+        p[i++] = <Knight white position={[2,1]} key={i}/>
+        p[i++] = <Knight black position={[2,8]} key={i}/>
+        p[i++] = <Knight white position={[7,1]} key={i}/>
+        p[i++] = <Knight black position={[7,8]} key={i}/>
 
-        p[i++] = <Bishop white position={[3,1]}/>
-        p[i++] = <Bishop black position={[3,8]}/>
-        p[i++] = <Bishop white position={[6,1]}/>
-        p[i++] = <Bishop black position={[6,8]}/>
+        p[i++] = <Bishop white position={[3,1]} key={i}/>
+        p[i++] = <Bishop black position={[3,8]} key={i}/>
+        p[i++] = <Bishop white position={[6,1]} key={i}/>
+        p[i++] = <Bishop black position={[6,8]} key={i}/>
         
-        p[i++] = <Queen white position={[4,1]}/>
-        p[i++] = <Queen black position={[4,8]}/>
+        p[i++] = <Queen white position={[4,1]} key={i}/>
+        p[i++] = <Queen black position={[4,8]} key={i}/>
 
-        p[i++] = <King white position={[5,1]}/>
-        p[i++] = <King black position={[5,8]}/>
+        p[i++] = <King white position={[5,1]} key={i}/>
+        p[i++] = <King black position={[5,8]} key={i}/>
 
         return p;
     }

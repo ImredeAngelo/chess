@@ -2,6 +2,8 @@ import React from 'react'
 import Piece from './index.js'
 import s from '../style/chess.scss'
 
+const symbol = 'p';
+
 export default class Pawn extends Piece {
     constructor(props) {
         super(props);
@@ -39,7 +41,7 @@ export default class Pawn extends Piece {
                 left:this.getOffset(0), 
                 top:this.getOffset(1), 
             },
-            className: s.pawn + ' ' + s[this.color],
+            className: s[this.color + symbol],
         }
 
         return React.createElement('div', opts)

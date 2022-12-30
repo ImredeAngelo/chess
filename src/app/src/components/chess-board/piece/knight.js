@@ -2,6 +2,8 @@ import React from 'react'
 import Piece from './index.js'
 import s from '../style/chess.scss'
 
+const symbol = 'n';
+
 const max = Math.max;
 const min = Math.min;
 const abs = Math.abs;
@@ -24,7 +26,7 @@ export default class Knight extends Piece {
                 left:this.getOffset(0), 
                 top:this.getOffset(1), 
             },
-            className: s.knight + ' ' + s[this.color],
+            className: s[this.color + symbol],
         }
 
         return React.createElement('div', opts)
