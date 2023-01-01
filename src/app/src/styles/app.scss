@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+
+    $pad: .45rem;
+    padding: $pad;
+    gap: $pad;
+}
+
+.sidebar {
+    padding: .9rem;
+    background-color: #303030;
+    width: 100%;
+}

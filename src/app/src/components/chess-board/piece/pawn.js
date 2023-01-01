@@ -28,6 +28,8 @@ export default class Pawn extends Piece {
         //     ...this.state,
         //     moved: true
         // })
+
+        // TODO: Promotion
         
         return (dx == 0 && dy == 1) || (!this.state.moved && dx == 0 && dy == 2);
     }

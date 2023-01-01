@@ -132,16 +132,37 @@ export default class Piece extends Component {
 
 
     onClick(e) {
-        
+
     }
 
 
     // ===== Game
 
+    
+    cancelDrag() {
+        console.log("Illegal move")
+        this.setState({
+            ...this.state,
+            offset: [0,0],
+            start: [0,0],
+            isDragging: false
+        })
+    }
 
     move(to) {
+        // Check if move is pseudo-legal
+        // Check if king is not left in check
+        if(!this.isPseudoLegalMove(to)) {
+            this.cancelDrag();
+            return;
+        }
+
+        const from = this.state.position;
+        console.log("Moved", from, to);
+        // this.game.move(to);
+
         this.setState({
-            position: this.isPseudoLegalMove(to) ? to : this.state.position,
+            position: to,
             offset: [0,0],
             start: [0,0],
             isDragging: false

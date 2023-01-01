@@ -27,38 +27,30 @@ export default class ChessBoard extends Component {
     /**
      * Set up standard board
      */
-    setup() {
-        let p = [];
-        let i = 0;
+    setup(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR') { // w KQkq - 0 1
+        let pieces = [];
+        let rank = 1;
 
-        while(i < 8) {
-            p[i++] = <Pawn white position={[i,2]} key={i-1}/>
-            p[i+7] = <Pawn black position={[i,7]} key={i+7}/>
+        for(let i = 0; i < position.length; i++) {
+            const col = (i % 8) + 1;
+            const c = position[i];
+            let piece = null;
+
+            switch(c.toLowerCase()) {
+                case 'p': piece = <Pawn black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case 'b': piece = <Bishop black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case 'n': piece = <Knight black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case 'r': piece = <Rook black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case 'q': piece = <Queen black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case 'k': piece = <King black={c == c.toUpperCase()} position={[col,rank]}/>; break;
+                case '/': rank++;
+                default: continue;
+            }
+
+            pieces.push(piece);
         }
 
-        i += 8;
-        p[i++] = <Rook white position={[1,1]} key={i}/>
-        p[i++] = <Rook black position={[1,8]} key={i}/>
-        p[i++] = <Rook white position={[8,1]} key={i}/>
-        p[i++] = <Rook black position={[8,8]} key={i}/>
-        
-        p[i++] = <Knight white position={[2,1]} key={i}/>
-        p[i++] = <Knight black position={[2,8]} key={i}/>
-        p[i++] = <Knight white position={[7,1]} key={i}/>
-        p[i++] = <Knight black position={[7,8]} key={i}/>
-
-        p[i++] = <Bishop white position={[3,1]} key={i}/>
-        p[i++] = <Bishop black position={[3,8]} key={i}/>
-        p[i++] = <Bishop white position={[6,1]} key={i}/>
-        p[i++] = <Bishop black position={[6,8]} key={i}/>
-        
-        p[i++] = <Queen white position={[4,1]} key={i}/>
-        p[i++] = <Queen black position={[4,8]} key={i}/>
-
-        p[i++] = <King white position={[5,1]} key={i}/>
-        p[i++] = <King black position={[5,8]} key={i}/>
-
-        return p;
+        return pieces;
     }
 
     /**

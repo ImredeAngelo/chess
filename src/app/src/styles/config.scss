@@ -1,1 +1,15 @@
 /// GLOBAL FUNCTIONS & VARIABLES
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&&family=Ubuntu&display=swap');
+
+@mixin font($n) {
+    @if($n == 'header') {
+        font-family: 'Ubuntu';
+        font-weight: 400;
+        font-size: 1rem;
+    }
+    @if($n == 'text') {
+        font-family: 'Noto Sans';
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+}
