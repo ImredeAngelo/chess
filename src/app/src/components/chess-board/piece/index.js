@@ -140,7 +140,7 @@ export default class Piece extends Component {
 
     
     cancelDrag() {
-        console.log("Illegal move")
+        console.log("Illegal move", this.state)
         this.setState({
             ...this.state,
             offset: [0,0],
