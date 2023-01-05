@@ -1,10 +1,8 @@
-import useGame from '@components/chess-game/useGame';
-import React, { Component, useState } from 'react';
+import React from 'react';
 import Board from './board';
+import StyleContext from '@components/chess-game/styleContext';
+import useGame from '@components/chess-game/useGame';
 import chess from './style/chess.scss';
-
-export const COLOR_WHITE = 'w';
-export const COLOR_BLACK = 'b';
 
 // /**
 //  * @todo - Load from PGN
@@ -14,15 +12,16 @@ export const COLOR_BLACK = 'b';
 // }
 
 export default function ChessBoard() {
-    const [selected, select] = useState([-1,-1]);
     const game = useGame();
 
     return (
-        <div id={chess.board}>
-            <Board style={chess} color={COLOR_WHITE}/>
-            <div className={chess.pieces}>
-                { game.getPieces() }
+        <StyleContext.Provider value={chess}>
+            <div id={chess.board}>
+                <Board style={chess} color={'w'}/>
+                <div className={chess.pieces}>
+                    { game.getPieces() }
+                </div>
             </div>
-        </div>
+        </StyleContext.Provider>
     )
 }

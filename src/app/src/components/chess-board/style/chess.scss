@@ -69,16 +69,16 @@ $cellsize: calc($size/8);
     background-size: calc($cellsize - .85rem);
 }
 
-.bp { @include piece('black_pawn') }
-.bn { @include piece('black_knight') }
-.bb { @include piece('black_bishop') }
-.br { @include piece('black_rook') }
-.bq { @include piece('black_queen') }
-.bk { @include piece('black_king') }
+.p { @include piece('black_pawn') }
+.n { @include piece('black_knight') }
+.b { @include piece('black_bishop') }
+.r { @include piece('black_rook') }
+.q { @include piece('black_queen') }
+.k { @include piece('black_king') }
 
-.wp { @include piece('white_pawn') }
-.wn { @include piece('white_knight') }
-.wb { @include piece('white_bishop') }
-.wr { @include piece('white_rook') }
-.wq { @include piece('white_queen') }
-.wk { @include piece('white_king') }
+.P { @include piece('white_pawn') }
+.N { @include piece('white_knight') }
+.B { @include piece('white_bishop') }
+.R { @include piece('white_rook') }
+.Q { @include piece('white_queen') }
+.K { @include piece('white_king') }

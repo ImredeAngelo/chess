@@ -1,57 +1,9 @@
-import GameContext from './context'
+import GameContext from './stateContext'
 
-class Turn {
-    constructor(white, black = '') {
-        this.white = white;
-        this.black = black;
-    }
-
-    // Make new move
-    move(move) {
-        if(this.black != '') {
-            console.warn('New variations not implemented yet');
-            return;
-        }
-
-        this.black = move;
-    }
-} 
-
-/**
- * @TODO  
- */
-// export default function Chess(props) {
-//     const state = new Gamestate();
-
-//     // All move pairs, i.e. both blacks & whites move (or just white if mid-turn) 
-//     // const [turns, setTurns] = useState([]);
-//     // const turn = Math.floor(turns.length) + 1;
-
-//     // const [moves, setMoves] = useState([]);
-    
-//     // const makeMove = (move) => {
-//     //     // const 
-//     //     const node = new Node(turn, move, turn, 0);
-
-//     //     setMoves([
-//     //         ...moves,
-//     //         move
-//     //     ])
-
-//     //     console.log(moves);
-//     // }
-
-// }
-
-export class Move {
-    constructor(file, rank) {
-        this.file = file;
-        this.rank = rank;
-    }
-}
-
-import React, { Component } from 'react'
-import setup from './setup';
+import React, { Component } from 'react';
+import FEN from './load';
+import Piece from './piece';
+import STATE from './bitboardState';
 
 /**
  * Handles the main logic for chess, except movement
@@ -63,34 +15,28 @@ export default class Chess extends Component {
         const position = props.position || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
         this.state = {
-            board: setup(position)
+            game: FEN(position),
+            pieces: 32
         }
     }
 
-    /**
-     * @TODO Pool pieces for performance
-     * @returns All pieces to be rendered in no particular order
-     */
-    getPieces() {
-        // console.log("Board", this.state.board)
-        return this.state.board.flatMap(piece => {
-            if(piece) return piece;
-        })
-    }
+
+    // ===== Helpers
+
 
     /**
      * Checks what team is on the given square
      * @param {Move} square 
      */
-    getTeam(square) {
-        const p = this.state.board[square.file, square.rank];
-        if(p) {
-            console.log('Occupied!', p);
-            return 1;
-        }
-
-        return 0;
+    isSameTeam(team, square) {
+        const a = this.state.game.board[square[1]*8 + square[0]];
+        const b = (a & STATE.black) >> 3;
+        return (a != 0) && (b == team);
     }
+
+
+    // ===== Moving
+
 
     /**
      * 
@@ -98,30 +44,70 @@ export default class Chess extends Component {
      * @param {Move} to 
      */
     move(from, to) {
-        console.log("Moving", from, " -> ", to);
+        // console.log("Moving", from, " -> ", to);
+        
+        let game = this.state.game;
 
-        const playerA = this.getTeam(from);
-        const playerB = this.getTeam(to);
         // Check if correct player turn
+        const currentPlayer = game.player;
+        if (this.isSameTeam(currentPlayer, from)) {
+            // console.error("Not your turn", currentPlayer)
+            return false;
+        }
+
+        game.player ^= 1;
+
         // Check if square is occupied by same player
         //  - Remove captured piece
         // Update board
 
-        let board = this.state.board;
-        let piece = board[from.file][file.rank];
-        board[to.file][to.rank] = piece;
-        board[from.file][from.rank] = null;
+        const a = from[1]*8 + from[0];
+        const b = to[1]*8 + to[0];
+
+        const mover = game.board[a];
+        const other = game.board[b];
+
+        game.board[b] = mover;
+        game.board[a] = 0;
+        
+        if(other) {
+            console.log("TODO: Capture")
+        }
 
         this.setState({
             ...this.state,
-            board: board,
+            game: game
         })
+
+        return true;
     }
     
+
+    // ===== Rendering
+    
+    /**
+     * @TODO Maybe pool pieces for performance
+     * @returns All pieces to be rendered in no particular order
+     */
+    getPieces() {
+        const b = this.state.game.board;
+        let pieces = [];
+
+        for(let i = 0; i < b.length; i++) {
+            if(b[i]) {
+                const pos = [(i % 8), Math.floor(i/8)]
+                const type = (b[i] & 0b1111)
+
+                pieces.push(<Piece manager={this} type={type} position={pos}/>);
+            }
+        }
+
+        return pieces;
+    }
+
     render() {
         return (
             <GameContext.Provider value={{
-                // state: this.gamestate
                 getPieces: this.getPieces.bind(this),
             }}>
                 {this.props.children}
@@ -129,3 +115,22 @@ export default class Chess extends Component {
         )
     }
 }
+
+
+
+// class Turn {
+//     constructor(white, black = '') {
+//         this.white = white;
+//         this.black = black;
+//     }
+
+//     // Make new move
+//     move(move) {
+//         if(this.black != '') {
+//             console.warn('New variations not implemented yet');
+//             return;
+//         }
+
+//         this.black = move;
+//     }
+// }

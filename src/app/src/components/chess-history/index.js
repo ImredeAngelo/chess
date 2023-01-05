@@ -15,7 +15,7 @@ export default function ChessHistory() {
     // }, []);
 
     useEffect(() => {
-        console.log('History', game);
+        // console.log('Render', game);
     }, [game])
 
     return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import Piece from './index.js'
 import s from '../style/chess.scss'
-import Context from '@components/chess-game/context.js';
 
 const symbol = 'p';
 
@@ -9,11 +8,9 @@ export default class Pawn extends Piece {
     constructor(props) {
         super(props);
 
-        console.log("PAWN", props)
-
         this.state = {
             ...this.state,
-            moved: props.moved
+            moved: props.moved || false
         }
     }
 
@@ -33,42 +30,28 @@ export default class Pawn extends Piece {
         // })
 
         // TODO: Promotion
+
+        const attacking = false;
+        const regular = (dx == 0 && dy == 1);
+        const first = (!this.state.moved && dx == 0 && dy == 2);
+
+        // console.log("Pawn move", p, '->', move, first, regular)
         
-        return (dx == 0 && dy == 1) || (!this.state.moved && dx == 0 && dy == 2);
+        return attacking || regular || first;
     }
 
     // TODO: Same render function across pieces
     render() {
-        // const opts = {
-        //     ref: this.ref,
-        //     style: { 
-        //         transform:this.getTransform(), 
-        //         left:this.getOffset(0), 
-        //         top:this.getOffset(1), 
-        //     },
-        //     className: s[this.color + symbol],
-        // }
-
-        // return React.createElement('div', opts)
-
         return (
-            <Context.Consumer>
-                { value => {
-                    
-
-                    return (
-                        <div 
-                            className={s[this.color + symbol]}
-                            ref={this.ref}
-                            style={{ 
-                                transform:this.getTransform(), 
-                                left:this.getOffset(0), 
-                                top:this.getOffset(1), 
-                            }}
-                        />
-                    )
+            <div 
+                className={s[this.color + symbol]}
+                ref={this.ref}
+                style={{ 
+                    transform:this.getTransform(), 
+                    left:this.getOffset(0), 
+                    top:this.getOffset(1), 
                 }}
-            </Context.Consumer>
+            />
         )
     }
 }

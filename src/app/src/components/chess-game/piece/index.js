@@ -1,22 +1,25 @@
 import React, { Component } from 'react'
 import Hammer, { DIRECTION_ALL } from 'hammerjs'
+import { getCharFromState } from '../bitboardState'
+import StyleContext from '../styleContext';
 
-const COLOR_WHITE = 'w';
-const COLOR_BLACK = 'b';
+Number.prototype.clamp = function(min, max) {
+    return Math.min(Math.max(this, min), max);
+};
 
 export default class Piece extends Component {
     constructor(props) {
         super(props);
 
         this.size = 0;
-        this.color = props.black ? COLOR_BLACK : COLOR_WHITE;
         this.ref = React.createRef();
         
-        // TODO: Decouple (Use context?)
+        // TODO: Decouple (Use context in chess-board)
         this.game = this.props.manager;
 
+        // TODO: Don't use state -> No need to re-render        
         this.state = {
-            position: props.position || [0,0],
+            position: props.position || [-1,-1],
             offset: [0,0],
             start: [0,0]
         }
@@ -56,7 +59,7 @@ export default class Piece extends Component {
         const x1 = x0 + this.state.offset[0] + this.state.start[0];
         const y1 = y0 - this.state.offset[1] + this.state.start[0];
 
-        return [Math.round(x1/100), Math.round(y1/100)];
+        return [(Math.round(x1/100)).clamp(1,8), Math.round(y1/100).clamp(1,8)];
     }
 
     // Set relative offset
@@ -69,8 +72,8 @@ export default class Piece extends Component {
 
     // Get style
     getTransform() {
-        const x = (this.state.position[0] - 1) * 100;
-        const y = (8 - this.state.position[1]) * 100;
+        const x = (this.state.position[0]) * 100;
+        const y = (7 - this.state.position[1]) * 100;
         return `translate(${x}%, ${y}%)`;
     }
 
@@ -88,7 +91,7 @@ export default class Piece extends Component {
      * @todo Let user move without dragging
      * @bug Function is called twice after (first) onDragStop()
      */
-    onDrag(e) {        
+    onDrag(e) {
         // console.log(this.isDragging, e, e.isFirst, e.isFinal)
         if(!this.state.isDragging) {
             this.onDragStart(e);
@@ -187,23 +190,44 @@ export default class Piece extends Component {
             start: [0,0],
             isDragging: false
         })
-
-        // TODO: Promotion
     }
 
     /**
      * Checks if piece moves that way (and on board)
      * Must be overridden by subclass
      */
-    // isPseudoLegalMove(square) {
-    //     console.log("super")
-
-    //     // Check on board
-    //     if(square[0] < 1 || square[1] < 1 || square[0] > 8 || square[1] > 8) return false;
+    isPseudoLegalMove(square) {
+        // Check on board
+        if(square[0] < 1 || square[1] < 1 || square[0] > 8 || square[1] > 8) return false;
         
-    //     // Check if square is occupied by same color
+        // Check if square is occupied by same color
 
-    //     // https://www.chessprogramming.org/Legal_Move
-    //     return true;
-    // }
+        // https://www.chessprogramming.org/Legal_Move
+        return true;
+    }
+
+
+    // ===== Render
+    
+
+    render() {
+        return (
+            <StyleContext.Consumer>
+                { style => {
+                    const symbol = getCharFromState(this.props.type);
+                    const opts = {
+                        className: style[symbol],
+                        ref: this.ref,
+                        style: {
+                            transform:this.getTransform(), 
+                            left:this.getOffset(0), 
+                            top:this.getOffset(1), 
+                        }
+                    }
+
+                    return React.createElement('div', opts)
+                }}
+            </StyleContext.Consumer>
+        )
+    }
 }
