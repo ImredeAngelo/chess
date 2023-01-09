@@ -63,8 +63,11 @@ $cellsize: calc($size/8);
 	// -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.dragging {
+    cursor: grabbing;
+}
+
 @mixin piece($path) {
-    @extend .piece;
     background: url('./' + $path + '.svg') center no-repeat;
     background-size: calc($cellsize - .85rem);
 }

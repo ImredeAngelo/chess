@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Hammer, { DIRECTION_ALL } from 'hammerjs'
-import { getCharFromState } from '../bitboardState'
-import StyleContext from '../styleContext';
+import { getCharFromState } from '../bitboard'
+import StyleContext from '../styleContext'
 
 Number.prototype.clamp = function(min, max) {
     return Math.min(Math.max(this, min), max);
@@ -47,19 +47,21 @@ export default class Piece extends Component {
         this.size = rect.bottom - rect.top;
     }
 
-
     // ===== Helpers
 
 
     // Get square from relative position
     getSquare() {
-        const x0 = this.state.position[0] * this.size;
-        const y0 = this.state.position[1] * this.size;
+        const x0 = (this.state.position[0]) * this.size;
+        const y0 = (this.state.position[1]) * this.size;
 
         const x1 = x0 + this.state.offset[0] + this.state.start[0];
         const y1 = y0 - this.state.offset[1] + this.state.start[0];
 
-        return [(Math.round(x1/100)).clamp(1,8), Math.round(y1/100).clamp(1,8)];
+        const file = Math.round(x1/100).clamp(0,7);
+        const rank = Math.round(y1/100).clamp(0,7);
+
+        return [file, rank];
     }
 
     // Set relative offset
@@ -146,11 +148,11 @@ export default class Piece extends Component {
 
 
     onClick(e) {
-
+        // Select this 
     }
 
     onClickSquareCallback(target) {
-
+        // Listen for click -> If square is clicked, try to move there
     }
 
 
@@ -168,22 +170,14 @@ export default class Piece extends Component {
             return;
         }
 
-        // Check if the piece moves in that way
-        if(!this.isPseudoLegalMove(to)) {
-            console.log("Illegal move (move pattern)", from, to)
-            this.cancelDrag();
-            return;
-        }
-
         // Check if the king is left in check
         if(!this.game.move(from, to)) {
-            console.log("Illegal move (king checked)", from, to)
+            console.log("Illegal move", from, to)
             this.cancelDrag();
             return;
         }
 
-        // Update position
-        console.log("Moved", from, to);
+        // Update visual position
         this.setState({
             position: to,
             offset: [0,0],
@@ -194,7 +188,6 @@ export default class Piece extends Component {
 
     /**
      * Checks if piece moves that way (and on board)
-     * Must be overridden by subclass
      */
     isPseudoLegalMove(square) {
         // Check on board
@@ -208,15 +201,20 @@ export default class Piece extends Component {
 
 
     // ===== Render
-    
+
+
+    select() {
+
+    }
 
     render() {
         return (
             <StyleContext.Consumer>
                 { style => {
                     const symbol = getCharFromState(this.props.type);
+                    const dragstl = this.state.isDragging ? style['dragging'] : '';
                     const opts = {
-                        className: style[symbol],
+                        className: `${style['piece']} ${style[symbol]} ${dragstl}`.trim(),
                         ref: this.ref,
                         style: {
                             transform:this.getTransform(), 

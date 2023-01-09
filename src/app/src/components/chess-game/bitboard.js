@@ -4,6 +4,7 @@
  * Bit 8    Has moved (TODO)
  */
 const STATE = {
+    EMPTY:  0x0,
     pawn:   0x1,
     knight: 0x2,
     bishop: 0x3,

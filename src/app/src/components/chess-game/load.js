@@ -1,4 +1,4 @@
-import STATE from "./bitboardState";
+import STATE from "./bitboard";
 
 export default function FEN(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
     const FEN = position.split(' ');
