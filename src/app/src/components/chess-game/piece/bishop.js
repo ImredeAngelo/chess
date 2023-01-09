@@ -26,7 +26,7 @@ export default function bishopMove(board, from, to) {
     const DY = Math.abs(dy);
 
     // Check if movement pattern matches
-    if(DX != DX || (dx == 0 && dy == 0))
+    if(DX != DY || (dx == 0 && dy == 0))
         return false;
 
     // Check if path is blocked
@@ -37,11 +37,6 @@ export default function bishopMove(board, from, to) {
             return false;
         }
     }
-
-    const a = getSquare(board, aFile, aRank)
-    const b = getSquare(board, bFile, bRank)
-
-    console.log("Valid bishop move")
 
     return true;
 }

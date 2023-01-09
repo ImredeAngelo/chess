@@ -6,6 +6,10 @@ import Piece from './piece';
 import STATE, { getCharFromState } from './bitboard';
 import bishopMove from './piece/bishop';
 import pawnMove from './piece/pawn';
+import knight from './piece/knight';
+import rook from './piece/rook';
+import queen from './piece/queen';
+import king from './piece/king';
 
 /**
  * Handles the main logic for chess, except movement
@@ -49,6 +53,8 @@ export default class Chess extends Component {
      * @param {Move} to 
      */
     move(from, to) {
+        if(from == to) return false;
+        
         let game = this.state.game;
 
         // Check if correct player turn
@@ -65,16 +71,19 @@ export default class Chess extends Component {
 
         const mover = game.board[a];
         const other = game.board[b];
-        
+
         // Check if square is occupied by same player
 
         // Check if pseudo-legal
         // TODO: Refactor into array
         switch(mover & 0b111) {
             case STATE.pawn:    if(!pawnMove(game.board, from, to)) return false; break;
+            case STATE.knight:  if(!knight(game.board, from, to)) return false; break;
             case STATE.bishop:  if(!bishopMove(game.board, from, to)) return false; break;
-            default: // console.log("Not implemented", mover & 0b111); 
-                return false;
+            case STATE.rook:    if(!rook(game.board, from, to)) return false; break;
+            case STATE.queen:   if(!queen(game.board, from, to)) return false; break;
+            case STATE.king:    if(!king(game.board, from, to)) return false; break;
+            default: return false;
         }
 
         // Move pieces
@@ -85,6 +94,10 @@ export default class Chess extends Component {
         game.player ^= 1;
         this.commitMove(game);
 
+        // Debugging
+        const alph = "abcdefgh";
+        console.log(`Moved ${getCharFromState(mover)} on ${alph[from[0]]}${from[1] + 1} to ${alph[to[0]]}${to[1] + 1}`)
+
         return true;
     }
 
@@ -93,9 +106,7 @@ export default class Chess extends Component {
      * @param {Game} game 
      */
     commitMove(game) {
-        const alph = "abcdefgh";
-        console.log(`Moved ${getCharFromState(mover)} on ${alph[from[0]]}${from[1] + 1} to ${alph[to[0]]}${to[1] + 1}`)
-        
+        // TODO: Castles & first pawn move & en passant
         this.setState({
             ...this.state,
             game: game
@@ -122,7 +133,6 @@ export default class Chess extends Component {
             }
         }
 
-        console.log(pieces.length);
         return pieces;
     }
 

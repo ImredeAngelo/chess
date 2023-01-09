@@ -159,8 +159,10 @@ export default class Piece extends Component {
     // ===== Game
 
     
-    // Check if move is pseudo-legal
-    // Check if king is not left in check        
+    /**
+     * Try 
+     * @param {Move} to 
+     */    
     move(to) {
         const from = this.state.position;
         
@@ -178,25 +180,12 @@ export default class Piece extends Component {
         }
 
         // Update visual position
-        this.setState({
-            position: to,
-            offset: [0,0],
-            start: [0,0],
-            isDragging: false
-        })
-    }
-
-    /**
-     * Checks if piece moves that way (and on board)
-     */
-    isPseudoLegalMove(square) {
-        // Check on board
-        if(square[0] < 1 || square[1] < 1 || square[0] > 8 || square[1] > 8) return false;
-        
-        // Check if square is occupied by same color
-
-        // https://www.chessprogramming.org/Legal_Move
-        return true;
+        // this.setState({
+        //     position: to,
+        //     offset: [0,0],
+        //     start: [0,0],
+        //     isDragging: false
+        // })
     }
 
 

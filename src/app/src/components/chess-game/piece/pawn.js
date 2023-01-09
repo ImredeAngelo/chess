@@ -14,7 +14,7 @@ export default function pawnMove(state, from, to) {
     const regular = (dx == 0 && dy == 1);
     const first = (!moved && dx == 0 && dy == 2);
 
-    console.log("Pawn move", from, '->', to, first, regular)
+    // console.log("Pawn move", from, '->', to, first, regular)
     
     return attacking || regular || first;
 }
