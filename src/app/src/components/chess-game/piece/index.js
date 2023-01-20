@@ -7,6 +7,7 @@ Number.prototype.clamp = function(min, max) {
     return Math.min(Math.max(this, min), max);
 };
 
+// TODO: Use react-draggable instead of hammer
 export default class Piece extends Component {
     constructor(props) {
         super(props);
@@ -191,10 +192,6 @@ export default class Piece extends Component {
 
     // ===== Render
 
-
-    select() {
-
-    }
 
     render() {
         return (
